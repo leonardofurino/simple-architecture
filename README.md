@@ -1,13 +1,13 @@
 # Resilient Distributed Job Orchestrator
 A polyglot, self-healing asynchronous task processing system built with TypeScript and Python. This project uses some architectural patterns: Event-Driven Microservices, Dynamic Backpressure, and Real-time Observability.
 
-# Architectural Overview
+## Architectural Overview
 The system manages a full task lifecycle—from a simulated user request to real-time notification—while constantly monitoring infrastructure health and auto-adjusting processing speed to prevent system failure.
 
-# System Diagram
+## System Diagram
 The diagram illustrates the flow: Producer -> HAProxy -> Webserver -> RabbitMQ -> Consumer/Job Runner -> MongoDB -> Redis Status -> Regulator.
 
-# Tech Stack
+## Tech Stack
 Reverse Proxy: HAProxy (Rate Limiting, TLS Termination, WebSocket support).
 
 Web Layer: Node.js + TypeScript (Express, Socket.io).
@@ -22,7 +22,7 @@ Observability: Python (Resource Monitoring via psutil), Grafana (Real-time Dashb
 
 Infrastructure: Docker & Docker Compose.
 
-# Key Engineering Highlights
+## Key Engineering Highlights
 1. Closed-Loop Feedback Control (Self-Healing)
 The Regulator component acts as a "Controller Plane." It analyzes real-time CPU/RAM metrics from the Monitor. If a critical threshold is reached, the Regulator updates the Desired State in Redis, forcing Workers to:
 
