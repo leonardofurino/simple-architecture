@@ -1,0 +1,31 @@
+{
+  "name": "simple-architecture",
+  "version": "1.0.0",
+  "description": "A polyglot, self-healing asynchronous task processing system built with TypeScript and Python. This project uses some architectural patterns: Event-Driven Microservices, Dynamic Backpressure, and Real-time Observability.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardofurino/simple-architecture.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/leonardofurino/simple-architecture/issues"
+  },
+  "homepage": "https://github.com/leonardofurino/simple-architecture#readme",
+  "devDependencies": {
+    "@types/amqplib": "^0.10.8",
+    "@types/mongoose": "^5.11.96",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.9",
+    "mongoose": "^9.3.0",
+    "redis": "^5.11.0"
+  }
+}

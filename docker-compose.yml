@@ -1,0 +1,46 @@
+services:
+  # --- BACKBONE: MESSAGING & STATE ---
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rmq_broker
+    ports:
+      - "5672:5672"   # AMQP Protocol
+      - "15672:15672" # Management UI
+    networks:
+      - data_plane
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_state
+    command: redis-server --requirepass yourpassword
+    ports:
+      - "6379:6379"
+    networks:
+      - data_plane
+      - control_plane
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+    networks:
+      - data_plane
+
+  # --- OBSERVABILITY ---
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana_viz
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - control_plane
+
+networks:
+  data_plane:    # for the traffic of Producer, Rabbit and Worker
+  control_plane: # for Monitoring, Redis and the Regulator

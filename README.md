@@ -1,5 +1,5 @@
 # Resilient Distributed Job Orchestrator
-A polyglot, self-healing asynchronous task processing system built with TypeScript and Python. This project demonstrates advanced architectural patterns: Event-Driven Microservices, Dynamic Backpressure, and Real-time Observability.
+A polyglot, self-healing asynchronous task processing system built with TypeScript and Python. This project uses some architectural patterns: Event-Driven Microservices, Dynamic Backpressure, and Real-time Observability.
 
 # Architectural Overview
 The system manages a full task lifecycle—from a simulated user request to real-time notification—while constantly monitoring infrastructure health and auto-adjusting processing speed to prevent system failure.
@@ -43,3 +43,18 @@ Non-blocking Request: The Producer sends an HTTP POST.
 Immediate ACK: The Webserver responds with a 202 Accepted and a unique task_id.
 
 Real-time Notification: Once processing is complete, the Notification Service pushes an update to the Producer via WebSockets.
+
+
+# Usage:
+- rabbitmq, mongodb, redis, grafana
+docker compose up -d
+- start the server
+cd services/webserver
+npm run build
+npm run dev
+- start the consumer ( worker )
+cd services/worker
+npm run build
+npm run dev
+
+
