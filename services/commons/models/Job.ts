@@ -7,9 +7,23 @@ export enum JobStatus {
     FAILED = 'FAILED'
 }
 
+export enum JobType {
+    GENERIC = 'Generic',
+    HARD = 'Hard',
+    MEDIUM = 'Medium',
+    SOFT = 'Soft'
+}
+
+export interface JobMessage {
+  taskId: string;
+  type: JobType,
+  payload: any;
+}
+
 const jobSchema = new Schema({
     taskId: { type: String, required: true, unique: true },
     status: { type: String, enum: Object.values(JobStatus), default: JobStatus.PENDING },
+    type: { type: String, enum: Object.values(JobType), default: JobType.GENERIC},
     payload: { type: Schema.Types.Mixed, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
