@@ -1,5 +1,8 @@
+![Simple Architecture Logo](/assets/img/simpleArchitectureLogo.png) 
+
+
 # Resilient Distributed Job Orchestrator
-A polyglot, self-healing asynchronous task processing system built with TypeScript and Python. This project uses some architectural patterns: Event-Driven Microservices, Dynamic Backpressure, and Real-time Observability.
+A self-healing asynchronous task processing system built with TypeScript and Python. This project uses some architectural patterns: Event-Driven Microservices, Dynamic Backpressure, and Real-time Observability.
 
 ## Architectural Overview
 The system manages a full task lifecycle—from a simulated user request to real-time notification—while constantly monitoring infrastructure health and auto-adjusting processing speed to prevent system failure.
