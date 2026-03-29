@@ -6,13 +6,23 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 
 async function init() {
-    dotenv.config({ path: path.resolve(__dirname, '../../../services/commons/.env') });
+    const configInitResult = dotenv.config({ path: path.resolve(__dirname, '../../commons/.env') });
+    if (configInitResult.error) {
+        console.error("Error loading .env:", configInitResult.error);
+        process.exit(1);
+    }
 }
-const PORT = Number(process.env.NOTIFICATION_SERVER_PORT);
-const TTL = Number(process.env.REDIS_TTL);
+
 
 async function startNotificationService() {
     await init();
+    const PORT = Number(process.env.NOTIFICATION_SERVER_PORT);
+    const TTL = Number(process.env.REDIS_TTL);
+    if (!PORT || !TTL) {
+        console.log("PORT: {}", PORT);
+        console.log("TTL: {}", TTL);
+        throw new Error("Error loading .env PORT or TTL!");
+    }
     const io = new Server(PORT);
     const redis = createClient({ url: process.env.REDIS_URL! });
     await redis.connect();
@@ -36,31 +46,31 @@ async function startNotificationService() {
         if (isOnline) {
             // send result via WebSocket
             io.to(tenantId).emit("job_update", { taskId, status });
-            console.log(`[Real-time] Notificato tenant: ${tenantId}`);
+            console.log(`[Real-time] Notified tenant: ${tenantId}`);
         } else {
             // BUFFERING su Redis
             const key = `notifications:buffer:${tenantId}`;
             await redis.rPush(key, JSON.stringify({ taskId, status, ts: Date.now() }));
             await redis.expire(key, TTL);
-            console.log(`[Buffer] Tenant ${tenantId} offline. Salvato su Redis.`);
+            console.log(`[Buffer] Tenant ${tenantId} offline. stored su Redis.`);
         }
 
         channel.ack(msg);
     });
 
     // 3. restore old lost notifications
-    io.on("connection", (socket) => {
-        socket.on("join-tenant", async (tenantId) => {
-            socket.join(tenantId);
-            const pending = await redis.lRange(`pending_refs:${tenantId}`, 0, -1);
-            if (pending.length > 0) {
-                pending.forEach(n => socket.emit("notification", JSON.parse(n)));
+    io.on("connection", async (socket) => {
+        const tenantId = socket.data.tenantId;
+        socket.join(tenantId);
+        console.log(`[Socket] Tenant ${tenantId} connected and listening...`);
+        const pending = await redis.lRange(`pending_refs:${tenantId}`, 0, -1);
+        if (pending.length > 0) {
+            pending.forEach(n => socket.emit("notification", JSON.parse(n)));
 
-                // empty list after delivery
-                await redis.del(`pending_refs:${tenantId}`);
-                console.log(`Delivered ${pending.length} old lost notifications for tenant ${tenantId}`);
-            }
-        });
+            // empty list after delivery
+            await redis.del(`pending_refs:${tenantId}`);
+            console.log(`Delivered ${pending.length} old lost notifications for tenant ${tenantId}`);
+        }
     });
 
     io.use((socket, next) => {
@@ -69,7 +79,7 @@ async function startNotificationService() {
         try {
             // signature verification
             const decoded: JwtPayload = AuthServiceUtils.verifyToken(token);
-
+            console.debug("decoded token: ", decoded);
             // valid token ...
             socket.data.tenantId = decoded.tenantId;
             socket.data.user = decoded.user;
@@ -80,4 +90,4 @@ async function startNotificationService() {
     });
 }
 
-await startNotificationService();
+startNotificationService();

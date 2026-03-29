@@ -3,7 +3,7 @@ import { Server } from 'socket.io';
 import amqp from 'amqplib';
 import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
-import { JobModel, JobStatus, JobMessage, JobType } from '../../commons/src/models/Job';
+import { JobModel, JobStatus, JobMessage, JobType } from '../../commons/src/models/job';
 import * as dotenv from 'dotenv';
 import path from 'path';
 

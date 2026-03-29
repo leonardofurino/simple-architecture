@@ -10,8 +10,10 @@
     "moduleResolution": "node",
     "baseUrl": ".", 
     "outDir": "./dist",
-  "allowSyntheticDefaultImports": true
+    "paths": {
+      "@simple-architecture/commons": ["services/commons/src/index"]
+    }
   },
-  "include": ["src/**/*","test/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
