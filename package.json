@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A polyglot, self-healing asynchronous task processing system built with TypeScript and Python. This project uses some architectural patterns: Event-Driven Microservices, Dynamic Backpressure, and Real-time Observability.",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "services/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,9 +28,18 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/socket.io": "^3.0.1",
+    "@types/socket.io-client": "^1.4.36",
     "amqplib": "^0.10.9",
+    "axios": "^1.14.0",
     "dotenv": "^17.3.1",
+    "fastify": "^5.8.4",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.0",
-    "redis": "^5.11.0"
+    "redis": "^5.11.0",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
   }
 }

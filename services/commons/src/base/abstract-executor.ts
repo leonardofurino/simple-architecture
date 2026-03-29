@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import amqp from 'amqplib';
-import { JobMessage, JobModel, JobStatus, JobType } from '../models/Job';
-import { IJobExecutor } from '../types/Job';
+import { JobMessage, JobModel, JobStatus, JobType } from '../models/job';
+import { IJobExecutor } from '../types/job';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
@@ -14,9 +14,8 @@ export abstract class AbstractExecutor implements IJobExecutor {
     protected abstract queue: JobType;
 
     private async init() {
-    dotenv.config({ path: path.resolve(__dirname, '../../../services/commons/.env') });
-
-    } 
+        dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+    }
     public async startWorker() {
         try {
             await this.init();

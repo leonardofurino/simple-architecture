@@ -1,5 +1,5 @@
-import {AbstractExecutor} from '../../commons/base/AbstractExecutor';
-import { JobType } from '../../commons/models/Job';
+import {AbstractExecutor} from '../../../commons/src/base/abstract-executor';
+import { JobType } from '../../../commons/src/models/job';
 
 export class MediumWorker extends AbstractExecutor {
 

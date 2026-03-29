@@ -3,7 +3,7 @@ import { Server } from 'socket.io';
 import amqp from 'amqplib';
 import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
-import { JobModel, JobStatus, JobMessage, JobType } from '../../commons/models/Job';
+import { JobModel, JobStatus, JobMessage, JobType } from '../../commons/src/models/Job';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
@@ -60,7 +60,7 @@ const start = async () => {
     try {
         await initMongo();
         await initRabbit();
-        const port = Number(process.env.PORT) || 3001;
+        const port = Number(process.env.WEBSERVER_PORT!);
         const address = await fastify.listen({ port: port, host: '0.0.0.0' });
 
         // Setup Socket.io
