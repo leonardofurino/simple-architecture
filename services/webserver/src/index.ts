@@ -4,6 +4,7 @@ import amqp from 'amqplib';
 import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
 import { JobModel, JobStatus, JobMessage, JobType } from '../../commons/src/models/job';
+import { AuthServiceUtils as AuthUtils} from '../../commons/src/utils/auth-utils';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
@@ -28,32 +29,56 @@ async function initMongo() {
 
 // Endpoint to receive Jobs
 fastify.post('/task', async (request, reply) => {
-    console.log("Mongoose connection state:", mongoose.connection.readyState);
-    const taskId = uuidv4();
-    const payload = request.body;
+    try {
+        // 1. get token from Authorization header
+        const authHeader = request.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return reply.status(401).send({ error: 'Token missed or not valid!' });
+        }
 
-    const jobType = request.headers['job-type'] as string;
+        const token = authHeader.split(' ')[1];
 
-    // 1. Save on MongoDB with PENDING state
-    const newJob = new JobModel({
-        taskId,
-        payload,
-        status: JobStatus.PENDING
-    });
-    await newJob.save();
+        // 2. token verification
+        const decoded = AuthUtils.verifyToken(token);
+        if (!decoded) {
+            return reply.status(401).send({ error: 'Token non valido o scaduto' });
+        }
 
-    if (!(jobType.toUpperCase() in JobType)) {
-        return reply.status(400).send({ error: "Missing 'job-type' header" });
-    }
-    const jobTypeEnum = JobType[jobType as keyof typeof JobType];
-    const message = { taskId, type: jobTypeEnum, payload } as JobMessage;
+        console.log("Mongoose connection state:", mongoose.connection.readyState);
+        const taskId = uuidv4();
+        const payload = request.body;
 
-    // 2. Send to RabbitMQ
-    channel.sendToQueue(jobType, Buffer.from(JSON.stringify(message)), {
-        persistent: true
-    });
+        const jobType = request.headers['x-job-type'] as string;
 
-    return { status: 'Accepted', taskId };
+        const { tenantId, user } = decoded;
+
+        // 1. Save on MongoDB with PENDING state
+        const newJob = new JobModel({
+            taskId,
+            tenantId,
+            user,            
+            payload,
+            status: JobStatus.PENDING
+        });
+        await newJob.save();
+
+        if (!(jobType.toUpperCase() in JobType)) {
+            return reply.status(400).send({ error: "Missing 'job-type' header" });
+        }
+        const jobTypeEnum = JobType[jobType as keyof typeof JobType];
+        const message = { taskId, tenantId, user, type: jobTypeEnum, payload } as JobMessage;
+
+        // 2. Send to RabbitMQ
+        const queue = jobType.toLowerCase();
+        console.log("Sending to rabbitmq queue %s - message: %s", queue, message);
+
+        channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
+            persistent: true
+        });
+        return { status: 'Accepted', taskId };
+    } catch (err) {
+        return reply.status(500).send({ error: 'Errore interno' });
+    }    
 });
 
 const start = async () => {

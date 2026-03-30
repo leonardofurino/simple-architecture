@@ -16,12 +16,24 @@ export enum JobType {
 
 export interface JobMessage {
   taskId: string;
+  tenantId: string;
+  user: string; 
   type: JobType,
   payload: any;
 }
 
+export interface Notification {
+  taskId: string;
+  tenantId: string;
+  user: string; 
+  status: JobStatus,
+  message: string;
+}
+
 const jobSchema = new Schema({
     taskId: { type: String, required: true, unique: true },
+    tenantId: { type: String, required: true},
+    user: { type: String, required: true},
     status: { type: String, enum: Object.values(JobStatus), default: JobStatus.PENDING },
     type: { type: String, enum: Object.values(JobType), default: JobType.GENERIC},
     payload: { type: Schema.Types.Mixed, required: true },

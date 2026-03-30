@@ -1,4 +1,5 @@
 import { JobProducer } from './producer';
+import { JobType } from '@simple-architecture/commons';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
@@ -19,7 +20,7 @@ async function startClient() {
     const WEBSERVER_URL = process.env.WEBSERVER_URL;
 
     console.log("AUTH_URL: %s, NOTIFICATION_URL: %s, WEBSERVER_URL: %s", AUTH_URL, NOTIFICATION_URL, WEBSERVER_URL);
-    if (!AUTH_URL || !NOTIFICATION_URL || !WEBSERVER_URL) {        
+    if (!AUTH_URL || !NOTIFICATION_URL || !WEBSERVER_URL) {
         throw new Error("Error loading .env URL params!");
     }
 
@@ -28,7 +29,7 @@ async function startClient() {
         'tenant_alpha',   // tenantId
         'leonardo_dev',   // user
         'secret123', // password        
-        process.env.AUTH_URL! ,// Auth Service
+        process.env.AUTH_URL!,// Auth Service
         process.env.NOTIFICATION_URL!,  // Notification Service
         process.env.WEBSERVER_URL!, // Webserver 
     );
@@ -43,14 +44,17 @@ async function startClient() {
         producer.connectNotifications();
 
         // --- STEP 3: send task to webserver ---
-        console.log("Sending task...");
-        const taskId = await producer.submitTask('image_resize', {
-            imageUrl: 'https://example.com/photo.jpg',
-            width: 800,
-            height: 600
-        });
-
-        console.log(`🎯 Task ${taskId} sent!`);
+        for (let i = 0; i < 10; i++) {
+            console.log("Sending task %d ...", i);
+            const taskId = await producer.submitTask(JobType.GENERIC, {
+                imageUrl: 'https://example.com/photo.jpg',
+                width: 800,
+                height: 600
+            });            
+            console.log(`🎯 Task ${taskId} sent!`);
+            console.debug("waiting for 2 sec...")
+            await new Promise(res => setTimeout(res, 2000));
+        }
 
     } catch (error: any) {
         console.error("❌ Ops! Something went wrong:");

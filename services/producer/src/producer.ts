@@ -1,5 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
+import { SOCKET_QUEUES, JobType } from '@simple-architecture/commons';
 
 interface AuthResponse {
     token: string;
@@ -42,22 +43,22 @@ export class JobProducer {
             auth: { token: this.token } // Pass the token to handshake
         });
 
-        this.socket.on('job_update', (data: any) => {
-            console.log(`[${this.user}] 🔔 Notification: Job ${data.taskId} è ${data.status}`);
+        this.socket.on(SOCKET_QUEUES.NOTIFICATIONS, (data: any) => {
+            console.log(`[${this.user}] 🔔 Notification RECEIVED - Job ${data.taskId} , status: ${data.status}`);
         });
     }
 
     // 3) submit Task to Webserver
-    async submitTask(jobType: string, payload: any) {
+    async submitTask(jobType: JobType, payload: any) {
         if (!this.token) throw new Error("Token needed!");
-
+        console.log(`Received task to submit: jobType=${jobType}, payload=${payload}`);
         const res = await axios.post<TaskSubmitResponse>(`${this.webserverUrl}/task`, payload, {
             headers: {
                 'Authorization': `Bearer ${this.token}`,
-                'job-type': jobType
+                'x-job-type': jobType
             }
         });
-        console.log(`[${this.user}] 📤 Task sent. ID: ${res.data.taskId}`);
+        console.log(`[${this.user}] Task sent. ID: ${res.data.taskId}`);
         return res.data.taskId;
     }
 }

@@ -51,13 +51,49 @@ Real-time Notification: Once processing is complete, the Notification Service pu
 # Usage:
 - rabbitmq, mongodb, redis, grafana
 docker compose up -d
-- start the server
+
+- start the auth service
+cd services/auth
+npm run build
+npm run dev
+
+- start the notification service
+cd services/notification
+npm run build
+npm run dev
+
+- start the web server
 cd services/webserver
 npm run build
 npm run dev
+
+- start the client (producer)
+cd services/producer
+npm run build
+npm run dev
+
 - start the consumer ( worker )
 cd services/worker
 npm run build
 npm run dev
 
+## FLOW DRAFT ( @TODO complete on the comunication diagram ):
+producer login (using tenantId, user, password) 
+=> auth server 
+=> subscribe to notification service ( socket + redis )
+=> submit task 
+=> web server to consumer queue 
+=> consumer task execution 
+=> notify the notification service via rabbitmq 
+=> notification service notify the client via redis + socket
 
+## @TODO: 
+1) tenants and users on db
+2) producers like "real" users on browser
+3) some unit tests ???
+4) ha-proxy
+5) ===> CONTROL PLANE:
+    5.1) Performance Monitor
+    5.2) Performance Controller
+5) grafana
+6) maybe smartphone app ( android) as client ???

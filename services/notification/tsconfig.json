@@ -11,7 +11,7 @@
     "baseUrl": ".", 
     "outDir": "./dist",
     "paths": {
-      "@simple-architecture/commons": ["services/commons/src/index"]
+      "@simple-architecture/commons": ["../commons/src/index"]
     }
   },
   "include": ["src/**/*"],

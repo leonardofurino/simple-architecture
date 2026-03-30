@@ -2,6 +2,9 @@ import amqp from 'amqplib';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { AuthServiceUtils, JwtPayload } from '../../commons/src/utils/auth-utils'
+import { Notification } from '../../commons/src/models/job';
+import { QUEUES } from '@simple-architecture/commons';
+import { SOCKET_QUEUES } from '@simple-architecture/commons';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
@@ -29,15 +32,18 @@ async function startNotificationService() {
 
     const conn = await amqp.connect(process.env.RABBIT_URL!);
     const channel = await conn.createChannel();
-    const queue = 'job_completed';
 
-    await channel.assertQueue(queue, { durable: true });
+    await channel.assertQueue(QUEUES.NOTIFICATIONS, { durable: true });
 
     // 1. wait for job completion from workers
-    channel.consume(queue, async (msg) => {
+    channel.consume(QUEUES.NOTIFICATIONS, async (msg) => {
         if (!msg) return;
 
-        const { taskId, tenantId, status } = JSON.parse(msg.content.toString());
+        const notification = JSON.parse(msg.content.toString()) as Notification;
+        const tenantId = notification.tenantId;
+        const taskId = notification.taskId;
+        const status = notification.status;
+
 
         // 2. check if is there a connected client of tenantId
         const room = io.sockets.adapter.rooms.get(tenantId);
@@ -45,8 +51,8 @@ async function startNotificationService() {
 
         if (isOnline) {
             // send result via WebSocket
-            io.to(tenantId).emit("job_update", { taskId, status });
-            console.log(`[Real-time] Notified tenant: ${tenantId}`);
+            io.to(tenantId).emit(SOCKET_QUEUES.NOTIFICATIONS, notification);
+            console.log(`[Real-time] Notified tenant: ${tenantId} with notification: ${JSON.stringify(notification)}`);
         } else {
             // BUFFERING su Redis
             const key = `notifications:buffer:${tenantId}`;
@@ -58,11 +64,11 @@ async function startNotificationService() {
         channel.ack(msg);
     });
 
-    // 3. restore old lost notifications
     io.on("connection", async (socket) => {
         const tenantId = socket.data.tenantId;
         socket.join(tenantId);
         console.log(`[Socket] Tenant ${tenantId} connected and listening...`);
+        // 3. restore old lost notifications
         const pending = await redis.lRange(`pending_refs:${tenantId}`, 0, -1);
         if (pending.length > 0) {
             pending.forEach(n => socket.emit("notification", JSON.parse(n)));

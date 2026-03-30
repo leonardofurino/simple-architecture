@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import amqp from 'amqplib';
 import { JobMessage, JobModel, JobStatus, JobType } from '../models/job';
+import { Notification } from '../models/job';
 import { IJobExecutor } from '../types/job';
 import * as dotenv from 'dotenv';
 import path from 'path';
-
-
+import { QUEUES } from '../constants/queues';
 
 export abstract class AbstractExecutor implements IJobExecutor {
 
@@ -19,7 +19,6 @@ export abstract class AbstractExecutor implements IJobExecutor {
     public async startWorker() {
         try {
             await this.init();
-
             // 2. Connection to MongoDB
             await mongoose.connect(process.env.MONGO_URL!);
             console.log('✅ Worker connected to MongoDB');
@@ -37,7 +36,7 @@ export abstract class AbstractExecutor implements IJobExecutor {
             channel.consume(queue, async (msg) => {
                 if (msg !== null) {
                     const content = JSON.parse(msg.content.toString()) as JobMessage;
-                    const { taskId, type, payload } = content;
+                    const { taskId, tenantId, user, type, payload } = content;
                     try {
                         console.log(`[${taskId}] Task received, it is processing ...`);
                         // execute the Job
@@ -46,6 +45,21 @@ export abstract class AbstractExecutor implements IJobExecutor {
                         await JobModel.findOneAndUpdate(
                             { taskId },
                             { status: JobStatus.COMPLETED, type: type, payload: payload, updatedAt: new Date() }
+                        );
+
+                        const notification: Notification = {
+                            taskId,
+                            tenantId, 
+                            user,
+                            status: JobStatus.COMPLETED,
+                            message: `Job ${type} successfully completed!`
+                        };
+
+                        // Send notification
+                        channel.sendToQueue(
+                            QUEUES.NOTIFICATIONS,
+                            Buffer.from(JSON.stringify(notification)),
+                            { persistent: true }
                         );
 
                         console.log(`[${taskId}] ✅  Task completed!`);

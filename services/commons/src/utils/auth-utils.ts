@@ -36,7 +36,7 @@ export class AuthServiceUtils {
 
     static verifyToken(token: string): JwtPayload {
         try {
-            console.debug("verifying token: %s", token);
+            console.debug("verifying token: %s ....", token.substring(0,5));
             return jwt.verify(token, process.env.JWT_SECRET_KEY!) as JwtPayload;
         } catch (error) {
             throw new UnauthorizedTokenError();

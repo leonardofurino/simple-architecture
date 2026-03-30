@@ -23,11 +23,11 @@ async function init() {
 
 server.post('/login', async (request, reply) => {
     const { user, password, tenantId } = request.body as any;
-    console.log("Received login request for user {}", user);
+    console.log("Received login request for user %s", user);
     // Simulating
     if (password === 'secret123') {
         const token = AuthServiceUtils.generateToken({ user, tenantId });
-        console.log("Returning token {}", token);
+        console.log("Returning token %s ... ", token.substring(0,5));
         return { token };
     }
 

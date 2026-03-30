@@ -9,9 +9,11 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "baseUrl": ".", 
-    "outDir": "./dist",
-  "allowSyntheticDefaultImports": true
+    "outDir": "./dist"
   },
+  "paths": {
+      "@simple-architecture/commons": ["../commons/src/index"]
+    },
   "include": ["src/**/*","test/**/*"],
   "exclude": ["node_modules"]
 }
