@@ -10,8 +10,9 @@
     "moduleResolution": "node",
     "baseUrl": ".", 
     "outDir": "./dist",
+    "rootDir": "./src",
     "paths": {
-      "@simple-architecture/commons": ["../commons/src/index"]
+      "@simple-architecture/commons": ["../commons/dist/index"]
     }
   },
   "include": ["src/**/*"],

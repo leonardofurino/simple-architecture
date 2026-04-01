@@ -9,9 +9,10 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "baseUrl": ".", 
+    "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
-      "@simple-architecture/commons": ["../commons/src/index"]
+      "@simple-architecture/commons": ["../commons/dist/index"]
     }
   },
   "include": ["src/**/*"],

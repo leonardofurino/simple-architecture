@@ -1,0 +1,1 @@
+docker run -it --rm   -p 3002:3002   -e RABBIT_URL=amqp://guest:guest@host.docker.internal:5672   -e REDIS_URL=redis://host.docker.internal:6379   --add-host=host.docker.internal:host-gateway   --name notification-instance   simple-arch-notification

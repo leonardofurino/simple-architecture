@@ -3,8 +3,8 @@ import { Server } from 'socket.io';
 import amqp from 'amqplib';
 import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
-import { JobModel, JobStatus, JobMessage, JobType } from '../../commons/src/models/job';
-import { AuthServiceUtils as AuthUtils} from '../../commons/src/utils/auth-utils';
+import { JobModel, JobStatus, JobMessage, JobType } from '@simple-architecture/commons';
+import { AuthServiceUtils as AuthUtils} from '@simple-architecture/commons';
 import * as dotenv from 'dotenv';
 import path from 'path';
 

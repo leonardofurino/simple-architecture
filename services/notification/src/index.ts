@@ -1,15 +1,15 @@
 import amqp from 'amqplib';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
-import { AuthServiceUtils, JwtPayload } from '../../commons/src/utils/auth-utils'
-import { Notification } from '../../commons/src/models/job';
+import { AuthServiceUtils, JwtPayload } from '@simple-architecture/commons';
+import { Notification } from '@simple-architecture/commons';
 import { QUEUES } from '@simple-architecture/commons';
 import { SOCKET_QUEUES } from '@simple-architecture/commons';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
 async function init() {
-    const configInitResult = dotenv.config({ path: path.resolve(__dirname, '../../commons/.env') });
+    const configInitResult = dotenv.config({ path: path.resolve(process.cwd(), '.env') });
     if (configInitResult.error) {
         console.error("Error loading .env:", configInitResult.error);
         process.exit(1);

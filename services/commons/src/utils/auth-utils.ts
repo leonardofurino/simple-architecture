@@ -7,11 +7,12 @@ export interface JwtPayload {
     user: string;
 }
 
-const configInitResult = dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+const configInitResult = dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 if (configInitResult.error) {
     console.error("Error loading .env:", configInitResult.error);
     process.exit(1); 
 }
+    
 const secret = process.env.JWT_SECRET_KEY;
 const expiry = process.env.JWT_SECRET_KEY_EXP;
 

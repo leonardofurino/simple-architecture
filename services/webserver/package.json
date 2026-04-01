@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/leonardofurino/simple-architecture#readme",
   "dependencies": {
+    "@simple-architecture/commons": "*" ,
     "dotenv": "^17.3.1",
     "fastify": "^5.8.2",
     "socket.io": "^4.8.3",
