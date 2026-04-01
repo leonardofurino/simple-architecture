@@ -31,16 +31,61 @@ services:
       - data_plane
 
   # --- OBSERVABILITY ---
-  grafana:
-    image: grafana/grafana-oss
-    container_name: grafana_viz
-    ports:
-      - "3000:3000"
+  #grafana:
+  #  image: grafana/grafana-oss
+  #  container_name: grafana_viz
+  #  ports:
+  #    - "3000:3000"
+  #  environment:
+  #    - GF_SECURITY_ADMIN_PASSWORD=admin
+  #  networks:
+  #    - control_plane
+
+  auth-service:
+    build: 
+      context: .
+      dockerfile: ./services/auth-service/Dockerfile
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    networks:
-      - control_plane
+      - MONGO_URL=mongodb://mongodb:27017/auth_db
+      - JWT_SECRET=eVOo6GoZns6NVDsZ7lCZ95XOa17PKzAj0+wsmZqHi3I=
+    networks: ["app-network"]
+
+  webserver:
+    build:
+      context: .
+      dockerfile: ./services/webserver/Dockerfile
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/jobs_db
+      - RABBIT_URL=amqp://rabbitmq
+    networks: ["app-network"]
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: ./services/notification/Dockerfile
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - RABBIT_URL=amqp://rabbitmq
+    networks: ["app-network"]
+
+  # --- HAProxy ---
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./localhost.pem:/usr/local/etc/haproxy/certs/localhost.pem:ro
+    depends_on:
+      - auth-service
+      - webserver
+      - notification-service
+    networks: ["app-network"]
 
 networks:
+  app-network:
+    driver: bridge
   data_plane:    # for the traffic of Producer, Rabbit and Worker
   control_plane: # for Monitoring, Redis and the Regulator

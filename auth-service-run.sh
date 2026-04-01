@@ -1,0 +1,1 @@
+docker run -it --rm   -p 3001:3001   -e MONGO_URL=mongodb://mongodb:27017/auth_db   --add-host=host.docker.internal:host-gateway   --name auth-instance   simple-arch-auth

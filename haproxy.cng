@@ -1,0 +1,36 @@
+global
+    maxconn 4096
+
+defaults
+    mode http
+    timeout connect 5s
+    timeout client  50s
+    timeout server  50s
+
+frontend https-in
+    # Porta 443 con il certificato generato
+    bind *:443 ssl crt /usr/local/etc/haproxy/certs/localhost.pem
+    
+    # Redirezione da HTTP a HTTPS
+    bind *:80
+    http-request redirect scheme https unless { ssl_fc }
+
+    # ACL per il routing basato sul PATH
+    acl is_auth path_beg /auth
+    acl is_webserver path_beg /task
+    acl is_socket path_beg /socket.io
+
+    use_backend auth_service if is_auth
+    use_backend webserver_service if is_webserver
+    use_backend notification_service if is_socket
+
+backend auth_service
+    server auth1 auth-service:3001 check
+
+backend webserver_service
+    server web1 webserver:3003 check
+
+backend notification_service
+    # Ottimizzato per WebSockets
+    timeout tunnel 1h
+    server notif1 notification-service:3002 check

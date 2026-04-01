@@ -87,11 +87,27 @@ producer login (using tenantId, user, password)
 => notify the notification service via rabbitmq 
 => notification service notify the client via redis + socket
 
+All services can be tested with 
+- prerequisite: 
+    cd services/commons
+    npm run build 
+
+# 1) 
+cd services/"my-service" 
+npm run build
+npm start 
+# 2)
+run as docker container ( see docker-build.sh && "myservice"-run.sh in root folder )
+# 3)
+docker-compose 
+
+
 ## @TODO: 
+0) consumers ( workers ) as docker + compose
 1) tenants and users on db
 2) producers like "real" users on browser
 3) some unit tests ???
-4) ha-proxy
+    4) ha-proxy DONE - TO BE TESTED
 5) ===> CONTROL PLANE:
     5.1) Performance Monitor
     5.2) Performance Controller
