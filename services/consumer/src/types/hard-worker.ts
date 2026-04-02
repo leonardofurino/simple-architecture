@@ -1,5 +1,5 @@
-import {AbstractExecutor} from '../../../commons/src/base/abstract-executor';
-import { JobType } from '../../../commons/src/models/job';
+import {AbstractExecutor} from '@simple-architecture/commons';
+import { JobType } from '@simple-architecture/commons';
 
 export class HardWorker extends AbstractExecutor {
 

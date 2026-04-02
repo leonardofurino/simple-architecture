@@ -38,7 +38,7 @@ async function startNotificationService() {
     // 1. wait for job completion from workers
     channel.consume(QUEUES.NOTIFICATIONS, async (msg) => {
         if (!msg) return;
-
+        console.log("Received notification from worker on queue %s", QUEUES.NOTIFICATIONS);
         const notification = JSON.parse(msg.content.toString()) as Notification;
         const tenantId = notification.tenantId;
         const taskId = notification.taskId;

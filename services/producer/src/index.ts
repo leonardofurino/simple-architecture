@@ -36,12 +36,14 @@ async function startClient() {
 
     try {
         // --- STEP 1: LOGIN ---
-        console.log("🔑 Tentativo di login...");
+        console.log("🔑 Login attempt...");
         await producer.login();
-        console.log("✅ Login effettuato con successo!");
+        console.log("✅ Login OK!");
 
         // --- STEP 2: Notification (Socket.io) ---
-        producer.connectNotifications();
+        console.log("🔑 Notification subscription attempt...");
+        await producer.connectNotifications();
+        console.log("✅ Notification subscription OK!");
 
         // --- STEP 3: send task to webserver ---
         for (let i = 0; i < 10; i++) {

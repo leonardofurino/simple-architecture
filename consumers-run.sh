@@ -1,0 +1,1 @@
+docker run -it --rm   -p 3001:3001   -e RABBIT_URL=amqp://guest:guest@host.docker.internal:5672   -e MONGO_URL=mongodb://host.docker.internal:27017/jobs_db   --add-host=host.docker.internal:host-gateway   --name consumer-instance   simple-arch-consumer

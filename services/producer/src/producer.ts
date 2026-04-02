@@ -51,7 +51,7 @@ export class JobProducer {
     // 3) submit Task to Webserver
     async submitTask(jobType: JobType, payload: any) {
         if (!this.token) throw new Error("Token needed!");
-        console.log(`Received task to submit: jobType=${jobType}, payload=${payload}`);
+        console.log(`Submit task to Webserver: jobType=${jobType}, payload=${payload}`);
         const res = await axios.post<TaskSubmitResponse>(`${this.webserverUrl}/task`, payload, {
             headers: {
                 'Authorization': `Bearer ${this.token}`,

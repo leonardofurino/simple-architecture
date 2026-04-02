@@ -4,7 +4,7 @@ import amqp from 'amqplib';
 import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
 import { JobModel, JobStatus, JobMessage, JobType } from '@simple-architecture/commons';
-import { AuthServiceUtils as AuthUtils} from '@simple-architecture/commons';
+import { AuthServiceUtils as AuthUtils } from '@simple-architecture/commons';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
@@ -41,7 +41,7 @@ fastify.post('/task', async (request, reply) => {
         // 2. token verification
         const decoded = AuthUtils.verifyToken(token);
         if (!decoded) {
-            return reply.status(401).send({ error: 'Token non valido o scaduto' });
+            return reply.status(401).send({ error: 'Token missed or not valid' });
         }
 
         console.log("Mongoose connection state:", mongoose.connection.readyState);
@@ -56,7 +56,7 @@ fastify.post('/task', async (request, reply) => {
         const newJob = new JobModel({
             taskId,
             tenantId,
-            user,            
+            user,
             payload,
             status: JobStatus.PENDING
         });
@@ -76,9 +76,16 @@ fastify.post('/task', async (request, reply) => {
             persistent: true
         });
         return { status: 'Accepted', taskId };
-    } catch (err) {
-        return reply.status(500).send({ error: 'Errore interno' });
-    }    
+    } catch (err: unknown) {
+        console.error(err);
+
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+
+        return reply.status(500).send({
+            error: 'Internal Server Error',
+            details: errorMessage
+        });
+    }
 });
 
 const start = async () => {

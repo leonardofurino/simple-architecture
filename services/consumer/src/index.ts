@@ -5,10 +5,9 @@ import { HardWorker } from "./types/hard-worker";
 
 async function bootstrap() {
     new GenericWorker().startWorker();
-//    new SoftWorker().startWorker();
-//    new MediumWorker().startWorker();
-//    new HardWorker().startWorker();
-
+    new SoftWorker().startWorker();
+    new MediumWorker().startWorker();
+    new HardWorker().startWorker();
 }
 
 bootstrap();

@@ -56,6 +56,7 @@ export abstract class AbstractExecutor implements IJobExecutor {
                         };
 
                         // Send notification
+                        console.log(`[${taskId}] Task notification sent to %s`, QUEUES.NOTIFICATIONS);                        
                         channel.sendToQueue(
                             QUEUES.NOTIFICATIONS,
                             Buffer.from(JSON.stringify(notification)),

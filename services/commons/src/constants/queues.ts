@@ -1,6 +1,6 @@
 export const QUEUES = {
   JOBS: 'jobs_queue',
-  NOTIFICATIONS: 'notifications_queue',
+  NOTIFICATIONS: 'notifications',
   AUDIT: 'audit_log_queue'
 } as const;
 

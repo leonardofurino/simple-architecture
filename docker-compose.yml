@@ -2,7 +2,13 @@ services:
   # --- BACKBONE: MESSAGING & STATE ---
   rabbitmq:
     image: rabbitmq:3-management
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     container_name: rmq_broker
+    hostname: rabbitmq
     ports:
       - "5672:5672"   # AMQP Protocol
       - "15672:15672" # Management UI
@@ -11,6 +17,11 @@ services:
 
   redis:
     image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
     container_name: redis_state
     command: redis-server
     ports:
@@ -21,6 +32,11 @@ services:
 
   mongodb:
     image: mongo:latest
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     container_name: mongo_db
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
@@ -45,28 +61,51 @@ services:
     build: 
       context: .
       dockerfile: ./services/auth-service/Dockerfile
+    ports:
+      - "3001:3001"
     environment:
-      - MONGO_URL=mongodb://mongodb:27017/auth_db
+      - MONGO_URL=mongodb://admin:password@mongodb:27017/auth_db?authSource=admin
       - JWT_SECRET=eVOo6GoZns6NVDsZ7lCZ95XOa17PKzAj0+wsmZqHi3I=
-    networks: ["app-network"]
-
-  webserver:
-    build:
-      context: .
-      dockerfile: ./services/webserver/Dockerfile
-    environment:
-      - MONGO_URL=mongodb://mongodb:27017/jobs_db
-      - RABBIT_URL=amqp://rabbitmq
-    networks: ["app-network"]
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    restart: on-failure
+    networks: [data_plane]
 
   notification-service:
     build:
       context: .
       dockerfile: ./services/notification/Dockerfile
+    ports:
+      - "3002:3002"
     environment:
       - REDIS_URL=redis://redis:6379
-      - RABBIT_URL=amqp://rabbitmq
-    networks: ["app-network"]
+      - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure
+    networks: [data_plane]
+
+  webserver:
+    build:
+      context: .
+      dockerfile: ./services/webserver/Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - MONGO_URL=mongodb://admin:password@mongodb:27017/jobs_db?authSource=admin
+      - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    restart: on-failure
+    networks: [data_plane]
+
 
   # --- HAProxy ---
   haproxy:
@@ -75,17 +114,19 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "8404:8404"
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
       - ./localhost.pem:/usr/local/etc/haproxy/certs/localhost.pem:ro
     depends_on:
-      - auth-service
-      - webserver
-      - notification-service
-    networks: ["app-network"]
+      auth-service:
+        condition: service_started
+      webserver:
+        condition: service_started
+      notification-service:
+        condition: service_started
+    networks: [data_plane]
 
 networks:
-  app-network:
-    driver: bridge
   data_plane:    # for the traffic of Producer, Rabbit and Worker
   control_plane: # for Monitoring, Redis and the Regulator
