@@ -106,7 +106,7 @@ npm start
 #### 2) run every service as single container
 run as docker container ( see docker-build.sh && "myservice"-run.sh in root folder )
 #### 3) run as docker compose
-docker-compose up -d
+docker down && docker compose up -d --build
 
 #### Note:
 use http://localhost:8404/stats for monitoring haproxy!
