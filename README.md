@@ -10,6 +10,12 @@ The system manages a full task lifecycle—from a simulated user request to real
 ## System Diagram
 The diagram illustrates the flow: Producer -> HAProxy -> Webserver -> RabbitMQ -> Consumer/Job Runner -> MongoDB -> Redis Status -> Regulator.
 
+![Simple Architecture Diagram](/assets/img/simple_architecture.png) 
+
+## Communication Diagram
+
+![Communication Diagram](/assets/img/communication_diagram.png) 
+
 ## Tech Stack
 Reverse Proxy: HAProxy (Rate Limiting, TLS Termination, WebSocket support).
 
@@ -47,8 +53,9 @@ Immediate ACK: The Webserver responds with a 202 Accepted and a unique task_id.
 
 Real-time Notification: Once processing is complete, the Notification Service pushes an update to the Producer via WebSockets.
 
+##
 
-# Usage:
+## Usage:
 - rabbitmq, mongodb, redis, grafana
 docker compose up -d
 
@@ -77,7 +84,7 @@ cd services/worker
 npm run build
 npm run dev
 
-## FLOW DRAFT ( @TODO complete on the comunication diagram ):
+### FLOW DRAFT ( @TODO complete on the comunication diagram ):
 producer login (using tenantId, user, password) 
 => auth server 
 => subscribe to notification service ( socket + redis )
@@ -88,19 +95,22 @@ producer login (using tenantId, user, password)
 => notification service notify the client via redis + socket
 
 All services can be tested with 
-- prerequisite: 
+#### 0) prerequisite: 
     cd services/commons
     npm run build 
 
-# 1) 
+#### 1) run every service from command line 
 cd services/"my-service" 
 npm run build
 npm start 
-# 2)
+#### 2) run every service as single container
 run as docker container ( see docker-build.sh && "myservice"-run.sh in root folder )
-# 3)
-docker-compose 
+#### 3) run as docker compose
+docker-compose up -d
 
+#### Note:
+use http://localhost:8404/stats for monitoring haproxy!
+moreover, logs on haproxy activated! ( only for POC scope!)
 
 ## @TODO: 
 0) consumers ( workers ) as docker + compose

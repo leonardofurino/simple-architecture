@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+.git
+services/commons/dist
+services/auth-service/dist
+services/consumer/dist
+services/producer/dist
+services/notification/dist
+services/webserver/dist

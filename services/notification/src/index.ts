@@ -37,13 +37,12 @@ async function startNotificationService() {
 
     // 1. wait for job completion from workers
     channel.consume(QUEUES.NOTIFICATIONS, async (msg) => {
-        if (!msg) return;
-        console.log("Received notification from worker on queue %s", QUEUES.NOTIFICATIONS);
+        if (!msg) return;        
         const notification = JSON.parse(msg.content.toString()) as Notification;
         const tenantId = notification.tenantId;
         const taskId = notification.taskId;
         const status = notification.status;
-
+        console.log("Received notification %s from worker on queue %s", notification, QUEUES.NOTIFICATIONS);
 
         // 2. check if is there a connected client of tenantId
         const room = io.sockets.adapter.rooms.get(tenantId);
@@ -64,20 +63,6 @@ async function startNotificationService() {
         channel.ack(msg);
     });
 
-    io.on("connection", async (socket) => {
-        const tenantId = socket.data.tenantId;
-        socket.join(tenantId);
-        console.log(`[Socket] Tenant ${tenantId} connected and listening...`);
-        // 3. restore old lost notifications
-        const pending = await redis.lRange(`pending_refs:${tenantId}`, 0, -1);
-        if (pending.length > 0) {
-            pending.forEach(n => socket.emit("notification", JSON.parse(n)));
-
-            // empty list after delivery
-            await redis.del(`pending_refs:${tenantId}`);
-            console.log(`Delivered ${pending.length} old lost notifications for tenant ${tenantId}`);
-        }
-    });
 
     io.use((socket, next) => {
         const token = socket.handshake.auth.token;
@@ -94,6 +79,22 @@ async function startNotificationService() {
             next(new Error("Authentication error: Invalid or expired token"));
         }
     });
+
+    io.on("connection", async (socket) => {
+        const tenantId = socket.data.tenantId;
+        socket.join(tenantId);
+        console.log(`[Socket] Tenant ${tenantId} connected and listening...`);
+        // 3. restore old lost notifications
+        const pending = await redis.lRange(`pending_refs:${tenantId}`, 0, -1);
+        if (pending.length > 0) {
+            pending.forEach(n => socket.emit("notification", JSON.parse(n)));
+
+            // empty list after delivery
+            await redis.del(`pending_refs:${tenantId}`);
+            console.log(`Delivered ${pending.length} old lost notifications for tenant ${tenantId}`);
+        }
+    });
+
 }
 
 startNotificationService();

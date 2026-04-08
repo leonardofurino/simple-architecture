@@ -1413,7 +1413,7 @@ artifact[name="mongodb"] {
 <ref refid="a3d326e7-2aec-11f1-ba11-bb4eef158ef1"/>
 </element>
 <name>
-<val>comunication-diagram</val>
+<val>communication-diagram</val>
 </name>
 <ownedPresentation>
 <reflist>

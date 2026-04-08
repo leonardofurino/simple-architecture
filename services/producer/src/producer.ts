@@ -40,7 +40,10 @@ export class JobProducer {
         if (!this.token) throw new Error("Login is needed!");
 
         this.socket = io(this.notificationUrl, {
-            auth: { token: this.token } // Pass the token to handshake
+            auth: { token: this.token }, // Pass the token to handshake
+            transports: ['websocket'],
+            rejectUnauthorized: false, // ignore error socket.io-client
+            secure: true
         });
 
         this.socket.on(SOCKET_QUEUES.NOTIFICATIONS, (data: any) => {

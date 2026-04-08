@@ -18,6 +18,7 @@ async function startClient() {
     const AUTH_URL = process.env.AUTH_URL;
     const NOTIFICATION_URL = process.env.NOTIFICATION_URL;
     const WEBSERVER_URL = process.env.WEBSERVER_URL;
+    
 
     console.log("AUTH_URL: %s, NOTIFICATION_URL: %s, WEBSERVER_URL: %s", AUTH_URL, NOTIFICATION_URL, WEBSERVER_URL);
     if (!AUTH_URL || !NOTIFICATION_URL || !WEBSERVER_URL) {
@@ -45,18 +46,19 @@ async function startClient() {
         await producer.connectNotifications();
         console.log("✅ Notification subscription OK!");
 
-        // --- STEP 3: send task to webserver ---
+        // --- STEP 3: send task to webserver ---        
         for (let i = 0; i < 10; i++) {
-            console.log("Sending task %d ...", i);
+            console.debug("waiting for 2 sec...")
+            await new Promise(res => setTimeout(res, 2000));            
+            console.log("Sending task %d ...", i+1);
             const taskId = await producer.submitTask(JobType.GENERIC, {
                 imageUrl: 'https://example.com/photo.jpg',
                 width: 800,
                 height: 600
             });            
-            console.log(`🎯 Task ${taskId} sent!`);
-            console.debug("waiting for 2 sec...")
-            await new Promise(res => setTimeout(res, 2000));
+            console.log(`🎯 Task ${taskId} sent!`);        
         }
+        
 
     } catch (error: any) {
         console.error("❌ Ops! Something went wrong:");
