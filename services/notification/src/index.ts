@@ -7,6 +7,8 @@ import { QUEUES } from '@simple-architecture/commons';
 import { SOCKET_QUEUES } from '@simple-architecture/commons';
 import * as dotenv from 'dotenv';
 import path from 'path';
+import { readFileSync } from "fs";
+import { createServer } from "https";
 
 async function init() {
     const configInitResult = dotenv.config({ path: path.resolve(process.cwd(), '.env') });
@@ -26,7 +28,26 @@ async function startNotificationService() {
         console.log("TTL: {}", TTL);
         throw new Error("Error loading .env PORT or TTL!");
     }
-    const io = new Server(PORT);
+
+    const httpsOptions = {
+        key: readFileSync('./certs/server.key'),
+        cert: readFileSync('./certs/server.crt'),
+        ca: readFileSync('./certs/ca.crt'),
+        requestCert: true,
+        rejectUnauthorized: true
+    };
+    const httpServer = createServer(httpsOptions);
+
+    const io = new Server(httpServer, {
+        cors: {
+            origin: "*",
+        }
+    });
+
+    httpServer.listen(PORT, "0.0.0.0", () => {
+        console.log("🚀 Secure Notification Server running on port %s (mTLS)", PORT);
+    });
+
     const redis = createClient({ url: process.env.REDIS_URL! });
     await redis.connect();
 
@@ -37,7 +58,7 @@ async function startNotificationService() {
 
     // 1. wait for job completion from workers
     channel.consume(QUEUES.NOTIFICATIONS, async (msg) => {
-        if (!msg) return;        
+        if (!msg) return;
         const notification = JSON.parse(msg.content.toString()) as Notification;
         const tenantId = notification.tenantId;
         const taskId = notification.taskId;
@@ -65,6 +86,10 @@ async function startNotificationService() {
 
 
     io.use((socket, next) => {
+        // mTLS
+        const clientCert = (socket.conn.request as any).client.getPeerCertificate();
+        console.log(`[mTLS] Received connection from: ${clientCert.subject.CN}`);
+
         const token = socket.handshake.auth.token;
 
         try {
@@ -81,6 +106,8 @@ async function startNotificationService() {
     });
 
     io.on("connection", async (socket) => {
+        console.log("[Socket] Secure connection established with mTLS");
+
         const tenantId = socket.data.tenantId;
         socket.join(tenantId);
         console.log(`[Socket] Tenant ${tenantId} connected and listening...`);

@@ -114,10 +114,11 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "444:444"
       - "8404:8404"
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-      - ./localhost.pem:/usr/local/etc/haproxy/certs/localhost.pem:ro
+      - ./shared/certs/localhost.pem:/usr/local/etc/haproxy/certs/localhost.pem:ro
     depends_on:
       auth-service:
         condition: service_started

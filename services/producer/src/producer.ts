@@ -1,6 +1,7 @@
 import axios from 'axios';
 import io from 'socket.io-client';
 import { SOCKET_QUEUES, JobType } from '@simple-architecture/commons';
+import { readFileSync } from "fs";
 
 interface AuthResponse {
     token: string;
@@ -42,8 +43,20 @@ export class JobProducer {
         this.socket = io(this.notificationUrl, {
             auth: { token: this.token }, // Pass the token to handshake
             transports: ['websocket'],
-            rejectUnauthorized: false, // ignore error socket.io-client
-            secure: true
+            //  mTLS
+            rejectUnauthorized: true, 
+            secure: true,
+            cert: readFileSync("./certs/client.crt", 'utf-8'),
+            key: readFileSync("./certs/client.key", 'utf-8'),
+            ca: readFileSync("./certs/ca.crt", 'utf-8')
+        });
+
+        this.socket.on("connect", () => {
+            console.log("✅ Connected via mTLS! ID:", this.socket?.id);
+        });
+
+        this.socket.on("connect_error", (err: any) => {
+            console.error("❌ mTLS Connection Error:", err.message);
         });
 
         this.socket.on(SOCKET_QUEUES.NOTIFICATIONS, (data: any) => {
