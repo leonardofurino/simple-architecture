@@ -89,6 +89,21 @@ services:
     restart: on-failure
     networks: [data_plane]
 
+  consumer-service:
+    build:
+      context: .
+      dockerfile: ./services/consumer/Dockerfile
+    environment:
+      - MONGO_URL=mongodb://admin:password@mongodb:27017/jobs_db?authSource=admin
+      - RABBIT_URL=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    restart: on-failure
+    networks: [data_plane]
+
   webserver:
     build:
       context: .

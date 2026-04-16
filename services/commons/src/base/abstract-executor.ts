@@ -14,7 +14,14 @@ export abstract class AbstractExecutor implements IJobExecutor {
     protected abstract queue: JobType;
 
     private async init() {
-        dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+        const configInitResult = dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+        if (configInitResult.error) {
+            console.error("Error loading .env:", configInitResult.error);
+            process.exit(1);
+        }
+        if (!process.env.MONGO_URL || !process.env.RABBIT_URL) {
+            throw new Error("❌ Missing vitals: MONGO_URL or RABBIT_URL are not defined!");
+        }
     }
     public async startWorker() {
         try {
@@ -23,8 +30,9 @@ export abstract class AbstractExecutor implements IJobExecutor {
             await mongoose.connect(process.env.MONGO_URL!);
             console.log('✅ Worker connected to MongoDB');
 
-            // 3. Connetti to RabbitMQ
-            const connection = await amqp.connect(process.env.RABBITMQ_URL!);
+            // 3. Connetion to RabbitMQ
+            const connection = await amqp.connect(process.env.RABBIT_URL!);
+            console.log('✅ Worker connected to RABBIT_URL');
             const channel = await connection.createChannel();
             const queue = this.queue.toString().toLowerCase();
 
@@ -49,14 +57,14 @@ export abstract class AbstractExecutor implements IJobExecutor {
 
                         const notification: Notification = {
                             taskId,
-                            tenantId, 
+                            tenantId,
                             user,
                             status: JobStatus.COMPLETED,
                             message: `Job ${type} successfully completed!`
                         };
 
                         // Send notification
-                        console.log(`[${taskId}] Task notification sent to %s`, QUEUES.NOTIFICATIONS);                        
+                        console.log(`[${taskId}] Task notification sent to %s`, QUEUES.NOTIFICATIONS);
                         channel.sendToQueue(
                             QUEUES.NOTIFICATIONS,
                             Buffer.from(JSON.stringify(notification)),

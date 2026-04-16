@@ -16,6 +16,9 @@ async function init() {
         console.error("Error loading .env:", configInitResult.error);
         process.exit(1);
     }
+    if (!process.env.REDIS_URL || !process.env.RABBIT_URL) {
+        throw new Error("❌ Missing vitals: REDIS_URL or RABBIT_URL are not defined!");
+    }
 }
 
 
@@ -112,12 +115,12 @@ async function startNotificationService() {
         socket.join(tenantId);
         console.log(`[Socket] Tenant ${tenantId} connected and listening...`);
         // 3. restore old lost notifications
-        const pending = await redis.lRange(`pending_refs:${tenantId}`, 0, -1);
+        const pending = await redis.lRange(`notifications:buffer:${tenantId}`, 0, -1);
         if (pending.length > 0) {
-            pending.forEach(n => socket.emit("notification", JSON.parse(n)));
+            pending.forEach(p => socket.emit(SOCKET_QUEUES.NOTIFICATIONS, JSON.parse(p)));
 
             // empty list after delivery
-            await redis.del(`pending_refs:${tenantId}`);
+            await redis.del(`notifications:buffer:${tenantId}`);
             console.log(`Delivered ${pending.length} old lost notifications for tenant ${tenantId}`);
         }
     });

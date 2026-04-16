@@ -125,6 +125,20 @@ artifact[name="mongodb"] {
 artifact[name="mongodb"] {
   color: rgba(0, 0, 0, 1.0);
 }
+
+comment {
+  background-color: rgba(249, 240, 107, 1.0);
+}
+
+artifact[name="ha-proxy"] {
+  color: rgba(26, 95, 180, 1.0);
+  text-color: rgba(198, 70, 0, 1.0);
+}
+
+artifact[name="ha-proxy"] {
+  text-color: rgba(61, 56, 70, 1.0);
+  color: rgba(145, 65, 172, 1.0);
+}
 </val>
 </styleSheet>
 </Core:StyleSheet>
@@ -1425,6 +1439,19 @@ artifact[name="mongodb"] {
 <ref refid="9df6e433-2af6-11f1-89c8-bb4eef158ef1"/>
 <ref refid="9ef2d676-2af7-11f1-9cd4-bb4eef158ef1"/>
 <ref refid="b2f395ef-2af7-11f1-a607-bb4eef158ef1"/>
+<ref refid="c8f5e035-39d6-11f1-ada1-2f25923f51cf"/>
+<ref refid="ed60a319-39d6-11f1-b1ab-2f25923f51cf"/>
+<ref refid="0314c0ee-39d7-11f1-ab51-2f25923f51cf"/>
+<ref refid="200f2692-39d7-11f1-8f4f-2f25923f51cf"/>
+<ref refid="40573e56-39d7-11f1-a2e0-2f25923f51cf"/>
+<ref refid="676f0457-39d7-11f1-b4ff-2f25923f51cf"/>
+<ref refid="7eeeb6e9-39d7-11f1-a4b0-2f25923f51cf"/>
+<ref refid="9a53ba4a-39d7-11f1-b231-2f25923f51cf"/>
+<ref refid="acf659d0-39d7-11f1-9d6c-2f25923f51cf"/>
+<ref refid="7782e963-39da-11f1-af42-2f25923f51cf"/>
+<ref refid="8af90498-39da-11f1-a663-2f25923f51cf"/>
+<ref refid="a5132fa6-39da-11f1-8c63-2f25923f51cf"/>
+<ref refid="5f1f4003-39db-11f1-8c50-2f25923f51cf"/>
 <ref refid="168efafc-2af7-11f1-a198-bb4eef158ef1"/>
 <ref refid="1cffd231-2af7-11f1-b286-bb4eef158ef1"/>
 <ref refid="255a417c-2af7-11f1-8c9d-bb4eef158ef1"/>
@@ -1433,21 +1460,23 @@ artifact[name="mongodb"] {
 <ref refid="2ae23efd-2af8-11f1-bc21-bb4eef158ef1"/>
 <ref refid="30a724a3-2af8-11f1-b28e-bb4eef158ef1"/>
 <ref refid="44f9aeeb-2af8-11f1-be9a-bb4eef158ef1"/>
+<ref refid="af69b679-39d6-11f1-8f1a-2f25923f51cf"/>
+<ref refid="8ac816a3-39d7-11f1-8027-2f25923f51cf"/>
 </reflist>
 </ownedPresentation>
 </UML:CommunicationDiagram>
 <UML:ArtifactItem id="02ccd659-2af6-11f1-8363-bb4eef158ef1">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 115.20386505126953, 176.4960479736328)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 75.77976989746094, 180.35094451904297)</val>
 </matrix>
 <top-left>
-<val>(0.0, -8.0)</val>
+<val>(-41.076171875, -8.0)</val>
 </top-left>
 <width>
 <val>100.0</val>
 </width>
 <height>
-<val>58.0</val>
+<val>110.28667449951172</val>
 </height>
 <diagram>
 <ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
@@ -1458,7 +1487,7 @@ artifact[name="mongodb"] {
 </UML:ArtifactItem>
 <UML:ArtifactItem id="0d26642e-2af6-11f1-9fc6-bb4eef158ef1">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 389.383056640625, 118.49604797363281)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 398.94537353515625, 24.40314483642578)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
@@ -1478,16 +1507,16 @@ artifact[name="mongodb"] {
 </UML:ArtifactItem>
 <UML:ArtifactItem id="1911e5fe-2af6-11f1-931b-bb4eef158ef1">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 628.6494750976562, 228.6376190185547)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 643.6790161132812, 584.0837860107422)</val>
 </matrix>
 <top-left>
-<val>(-12.8818359375, -110.14157104492188)</val>
+<val>(0.0, -110.14157104492188)</val>
 </top-left>
 <width>
-<val>113.8818359375</val>
+<val>101.0</val>
 </width>
 <height>
-<val>178.05311584472656</val>
+<val>175.7861785888672</val>
 </height>
 <diagram>
 <ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
@@ -1518,7 +1547,7 @@ artifact[name="mongodb"] {
 </UML:ArtifactItem>
 <UML:ArtifactItem id="41ec0624-2af6-11f1-974a-bb4eef158ef1">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 396.064453125, 334.16168212890625)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 299.66015625, 406.72369384765625)</val>
 </matrix>
 <top-left>
 <val>(-7.616943359375, 0.0)</val>
@@ -1538,7 +1567,7 @@ artifact[name="mongodb"] {
 </UML:ArtifactItem>
 <UML:ArtifactItem id="9df6e433-2af6-11f1-89c8-bb4eef158ef1">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 608.5823364257812, 403.8165283203125)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 648.5349731445312, 82.40314483642578)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
@@ -1567,10 +1596,10 @@ artifact[name="mongodb"] {
 <val>False</val>
 </orthogonal>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 212.03785705566406, 191.89158630371094)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 123.8274154663086, 167.43352127075195)</val>
 </matrix>
 <points>
-<val>[(3.1660079956054688, -1.87200927734375), (177.34519958496094, -40.09307861328125)]</val>
+<val>[(-2.1613922119140625, 4.917423248291016), (49.989463806152344, -73.81084060668945), (275.11795806884766, -119.00328826904297)]</val>
 </points>
 </general:Line>
 <general:Line id="1cffd231-2af7-11f1-b286-bb4eef158ef1">
@@ -1584,10 +1613,10 @@ artifact[name="mongodb"] {
 <val>False</val>
 </orthogonal>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 214.44264221191406, 209.79283142089844)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 215.20386505126953, 214.9248504638672)</val>
 </matrix>
 <points>
-<val>[(0.0, 0.0), (174.94041442871094, 36.51892852783203)]</val>
+<val>[(-80.5002670288086, 26.16131591796875), (89.68407440185547, 26.16131591796875), (174.17919158935547, 26.16131591796875)]</val>
 </points>
 </general:Line>
 <general:Line id="255a417c-2af7-11f1-8c9d-bb4eef158ef1">
@@ -1601,15 +1630,15 @@ artifact[name="mongodb"] {
 <val>False</val>
 </orthogonal>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 198.32154846191406, 224.34254455566406)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 147.82154846191406, 223.342529296875)</val>
 </matrix>
 <points>
-<val>[(2.353759765625, 2.15350341796875), (191.06150817871094, 130.65745544433594)]</val>
+<val>[(-32.42310333251953, 59.29508972167969), (162.50437927246094, 182.3811492919922)]</val>
 </points>
 </general:Line>
 <UML:ArtifactItem id="9ef2d676-2af7-11f1-9cd4-bb4eef158ef1">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 816.2084350585938, 221.31175994873047)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 949.1371459960938, 464.0584716796875)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
@@ -1629,7 +1658,7 @@ artifact[name="mongodb"] {
 </UML:ArtifactItem>
 <UML:ArtifactItem id="b2f395ef-2af7-11f1-a607-bb4eef158ef1">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 610.0000610351562, 499.9999694824219)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 625.0296020507812, 316.9278259277344)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
@@ -1658,10 +1687,10 @@ artifact[name="mongodb"] {
 <val>False</val>
 </orthogonal>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 437.784423828125, 376.798828125)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 451.949462890625, 396.6371307373047)</val>
 </matrix>
 <points>
-<val>[(10.1630859375, 7.36285400390625), (170.79791259765625, 149.20115661621094)]</val>
+<val>[(-40.90625, 26.305068969726562), (97.16583251953125, 9.0865478515625), (173.08013916015625, -53.70928955078125)]</val>
 </points>
 </general:Line>
 <UML:Deployment id="f9b9170e-2af7-11f1-98b4-bb4eef158ef1">
@@ -1718,7 +1747,7 @@ artifact[name="mongodb"] {
 <val>(1.0, 0.0, 0.0, 1.0, 507.447509765625, 355.0)</val>
 </matrix>
 <points>
-<val>[(0.0, 0.0), (108.32012939453125, -72.36238098144531)]</val>
+<val>[(-96.404296875, 101.72369384765625), (136.23150634765625, 173.740234375)]</val>
 </points>
 </general:Line>
 <general:Line id="2ae23efd-2af8-11f1-bc21-bb4eef158ef1">
@@ -1732,10 +1761,10 @@ artifact[name="mongodb"] {
 <val>False</val>
 </orthogonal>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 728.1516723632812, 296.5491638183594)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 728.1516723632812, 572.8305511474609)</val>
 </matrix>
 <points>
-<val>[(0.0, 0.0), (88.0567626953125, -35.318878173828125)]</val>
+<val>[(16.52734375, -74.39869689941406), (220.9854736328125, -84.7720947265625)]</val>
 </points>
 </general:Line>
 <general:Line id="30a724a3-2af8-11f1-b28e-bb4eef158ef1">
@@ -1749,10 +1778,10 @@ artifact[name="mongodb"] {
 <val>False</val>
 </orthogonal>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 837.2926635742188, 268.5736999511719)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 837.2926635742188, 318.5736999511719)</val>
 </matrix>
 <points>
-<val>[(0.0, 0.0), (-107.6431884765625, 271.4721374511719)]</val>
+<val>[(164.344482421875, 195.48477172851562), (147.324951171875, 238.79501342773438), (-92.6136474609375, 243.26160430908203)]</val>
 </points>
 </general:Line>
 <general:Line id="44f9aeeb-2af8-11f1-be9a-bb4eef158ef1">
@@ -1766,11 +1795,435 @@ artifact[name="mongodb"] {
 <val>False</val>
 </orthogonal>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 506.704833984375, 242.57334899902344)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 508.383056640625, 253.6376190185547)</val>
 </matrix>
 <points>
-<val>[(0.0, 0.0), (109.06280517578125, 0.0)]</val>
+<val>[(0.0, 0.0), (135.29595947265625, 260.4208526611328)]</val>
 </points>
 </general:Line>
+<general:Line id="af69b679-39d6-11f1-8f1a-2f25923f51cf">
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<horizontal>
+<val>False</val>
+</horizontal>
+<orthogonal>
+<val>False</val>
+</orthogonal>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 507.370361328125, 271.31175994873047)</val>
+</matrix>
+<points>
+<val>[(1.0126953125, -40.10913848876953), (172.49871826171875, -134.60145568847656)]</val>
+</points>
+</general:Line>
+<UML:Comment id="c8f5cd43-39d6-11f1-a7b4-2f25923f51cf">
+<body>
+<val>1. Auth</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="c8f5e035-39d6-11f1-ada1-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="c8f5e035-39d6-11f1-ada1-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 292.043212890625, 76.48005676269531)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="c8f5cd43-39d6-11f1-a7b4-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="ed609097-39d6-11f1-b8c4-2f25923f51cf">
+<body>
+<val>2. Notification Subscribe</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="ed60a319-39d6-11f1-b1ab-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="ed60a319-39d6-11f1-b1ab-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 275.26806640625, 165.5615119934082)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>101.0</val>
+</width>
+<height>
+<val>59.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="ed609097-39d6-11f1-b8c4-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="0314b138-39d7-11f1-ad6b-2f25923f51cf">
+<body>
+<val>3. Job request</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="0314c0ee-39d7-11f1-ab51-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="0314c0ee-39d7-11f1-ab51-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 43.20531463623047, 312.1376190185547)</val>
+</matrix>
+<top-left>
+<val>(-17.003433227539062, 0.0)</val>
+</top-left>
+<width>
+<val>117.00343322753906</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="0314b138-39d7-11f1-ad6b-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="200f15cb-39d7-11f1-ac9b-2f25923f51cf">
+<body>
+<val>4. Job Store</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="200f2692-39d7-11f1-8f4f-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="200f2692-39d7-11f1-8f4f-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 429.346435546875, 348.9422149658203)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="200f15cb-39d7-11f1-ac9b-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="40572e80-39d7-11f1-9723-2f25923f51cf">
+<body>
+<val>5. Job enqueue</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="40573e56-39d7-11f1-a2e0-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="40573e56-39d7-11f1-a2e0-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 479.346435546875, 511.8353042602539)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="40572e80-39d7-11f1-9723-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="676ef25d-39d7-11f1-a875-2f25923f51cf">
+<body>
+<val>6. Job dequeue</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="676f0457-39d7-11f1-b4ff-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="676f0457-39d7-11f1-b4ff-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 828.5717163085938, 569.654541015625)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="676ef25d-39d7-11f1-a875-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="7eeea5ca-39d7-11f1-951f-2f25923f51cf">
+<body>
+<val>7. Job execution</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="7eeeb6e9-39d7-11f1-a4b0-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="7eeeb6e9-39d7-11f1-a4b0-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 1004.1371459960938, 405.7236785888672)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="7eeea5ca-39d7-11f1-951f-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<general:Line id="8ac816a3-39d7-11f1-8027-2f25923f51cf">
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<horizontal>
+<val>False</val>
+</horizontal>
+<orthogonal>
+<val>False</val>
+</orthogonal>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 743.7182006835938, 179.38967895507812)</val>
+</matrix>
+<points>
+<val>[(240.8994140625, 283.6687774658203), (0.9608154296875, 173.61029052734375)]</val>
+</points>
+</general:Line>
+<UML:Comment id="9a53a796-39d7-11f1-aa5b-2f25923f51cf">
+<body>
+<val>8 Job update</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="9a53ba4a-39d7-11f1-b231-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="9a53ba4a-39d7-11f1-b231-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 789.970703125, 302.9999694824219)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>50.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="9a53a796-39d7-11f1-aa5b-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="acf649e8-39d7-11f1-aa8f-2f25923f51cf">
+<body>
+<val>9 Notification enqueue</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="acf659d0-39d7-11f1-9d6c-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="acf659d0-39d7-11f1-9d6c-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 777.5717163085938, 426.2236785888672)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>101.0</val>
+</width>
+<height>
+<val>59.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="acf649e8-39d7-11f1-aa8f-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="7782d9c3-39da-11f1-9392-2f25923f51cf">
+<body>
+<val>10. Notification dequeue</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="7782e963-39da-11f1-af42-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="7782e963-39da-11f1-af42-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 534.6043090820312, 241.08616638183594)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>101.0</val>
+</width>
+<height>
+<val>59.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="7782d9c3-39da-11f1-9392-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="8af8f4b6-39da-11f1-8c07-2f25923f51cf">
+<body>
+<val>11. Notification buffer</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="8af90498-39da-11f1-a663-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="8af90498-39da-11f1-a663-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 517.9453735351562, 106.5615119934082)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>101.0</val>
+</width>
+<height>
+<val>59.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="8af8f4b6-39da-11f1-8c07-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Comment id="a5132082-39da-11f1-b97c-2f25923f51cf">
+<body>
+<val>12. Notification publish</val>
+</body>
+<presentation>
+<reflist>
+<ref refid="a5132fa6-39da-11f1-8c63-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Comment>
+<UML:CommentItem id="a5132fa6-39da-11f1-8c63-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 275.26806640625, 253.1376190185547)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>101.0</val>
+</width>
+<height>
+<val>59.0</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="a5132082-39da-11f1-b97c-2f25923f51cf"/>
+</subject>
+</UML:CommentItem>
+<UML:Artifact id="5f1e0fc9-39db-11f1-8901-2f25923f51cf">
+<name>
+<val>ha-proxy</val>
+</name>
+<presentation>
+<reflist>
+<ref refid="5f1f4003-39db-11f1-8c50-2f25923f51cf"/>
+</reflist>
+</presentation>
+</UML:Artifact>
+<UML:ArtifactItem id="5f1f4003-39db-11f1-8c50-2f25923f51cf">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 130.70654296875, 28.181194305419922)</val>
+</matrix>
+<top-left>
+<val>(27.0, 11.69366455078125)</val>
+</top-left>
+<width>
+<val>102.402587890625</val>
+</width>
+<height>
+<val>481.1162796020508</val>
+</height>
+<diagram>
+<ref refid="d9acb762-2af5-11f1-aad1-bb4eef158ef1"/>
+</diagram>
+<subject>
+<ref refid="5f1e0fc9-39db-11f1-8901-2f25923f51cf"/>
+</subject>
+</UML:ArtifactItem>
 </model>
 </gaphor>

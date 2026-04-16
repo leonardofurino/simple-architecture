@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn src/index.ts",
-    "build": "tsc"
+    "build": "cd ../commons && tsc && cd ../notification && tsc"
   },
   "dependencies": {
     "@simple-architecture/commons": "*",
