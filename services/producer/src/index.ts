@@ -4,10 +4,13 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 
 async function init() {
-    const configInitResult = dotenv.config({ path: path.resolve(__dirname, '../../commons/.env') });
+    const configInitResult = dotenv.config({ path: path.resolve(process.cwd(), '.env') });
     if (configInitResult.error) {
         console.error("Error loading .env:", configInitResult.error);
         process.exit(1);
+    }
+    if (!process.env.AUTH_URL || !process.env.NOTIFICATION_URL || !process.env.WEBSERVER_URL) {
+        throw new Error("❌ Missing vitals: AUTH_URL, NOTIFICATION_URL or WEBSERVER_URL are not defined!");
     }
 }
 
@@ -18,7 +21,7 @@ async function startClient() {
     const AUTH_URL = process.env.AUTH_URL;
     const NOTIFICATION_URL = process.env.NOTIFICATION_URL;
     const WEBSERVER_URL = process.env.WEBSERVER_URL;
-    
+
 
     console.log("AUTH_URL: %s, NOTIFICATION_URL: %s, WEBSERVER_URL: %s", AUTH_URL, NOTIFICATION_URL, WEBSERVER_URL);
     if (!AUTH_URL || !NOTIFICATION_URL || !WEBSERVER_URL) {
@@ -47,18 +50,17 @@ async function startClient() {
         console.log("✅ Notification subscription OK!");
 
         // --- STEP 3: send task to webserver ---        
-        for (let i = 0; i < 10; i++) {
-            console.debug("waiting for 2 sec...")
-            await new Promise(res => setTimeout(res, 2000));            
-            console.log("Sending task %d ...", i+1);
-            const taskId = await producer.submitTask(JobType.GENERIC, {
-                imageUrl: 'https://example.com/photo.jpg',
-                width: 800,
-                height: 600
-            });            
-            console.log(`🎯 Task ${taskId} sent!`);        
-        }
-        
+        const jobTypes = [JobType.GENERIC, JobType.HARD, JobType.MEDIUM, JobType.SOFT];
+
+        jobTypes.forEach(type => {
+            (async () => {
+                let i = 0;
+                while (true) {
+                    await requestJobExecution(++i, producer, type);
+                }
+            })();
+        });
+
 
     } catch (error: any) {
         console.error("❌ Ops! Something went wrong:");
@@ -71,3 +73,15 @@ async function startClient() {
 }
 
 startClient();
+
+async function requestJobExecution(i: number, producer: JobProducer, jobType: JobType = JobType.GENERIC) {
+    console.debug("waiting for 2 sec...");
+    await new Promise(res => setTimeout(res, 2000));
+    console.log("Sending task %d - jobType: %s ...", i, jobType);
+    const taskId = await producer.submitTask(jobType, {
+        imageUrl: 'https://example.com/photo.jpg',
+        width: 800,
+        height: 600
+    });
+    console.log(`🎯 Task ${taskId} sent!`);
+}

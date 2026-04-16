@@ -6,7 +6,7 @@ export class MediumWorker extends AbstractExecutor {
     protected queue = JobType.MEDIUM;
 
     public async execute(payload: any): Promise<void> {
-        console.info('Executing ${queue} Job...');
+        console.info('Executing %s Job...', this.queue.toString());
         await new Promise(res => setTimeout(res, 3000));
         console.info('${queue} Job Executed!');
     }    
