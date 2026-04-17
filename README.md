@@ -85,14 +85,14 @@ npm run build
 npm run dev
 
 ### FLOW DRAFT ( @TODO complete on the comunication diagram ):
-producer login (using tenantId, user, password) 
-=> auth server 
-=> subscribe to notification service ( socket + redis )
-=> submit task 
-=> web server to consumer queue 
-=> consumer task execution 
-=> notify the notification service via rabbitmq 
-=> notification service notify the client via redis + socket
+- producer login (using tenantId, user, password) 
+- => auth server 
+- => subscribe to notification service ( socket + redis )
+- => submit task 
+- => web server to consumer queue 
+- => consumer task execution 
+- => notify the notification service via rabbitmq 
+- => notification service notify the client via redis + socket
 
 All services can be tested with 
 #### 0) prerequisite: 

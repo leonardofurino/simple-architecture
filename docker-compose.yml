@@ -46,17 +46,6 @@ services:
     networks:
       - data_plane
 
-  # --- OBSERVABILITY ---
-  #grafana:
-  #  image: grafana/grafana-oss
-  #  container_name: grafana_viz
-  #  ports:
-  #    - "3000:3000"
-  #  environment:
-  #    - GF_SECURITY_ADMIN_PASSWORD=admin
-  #  networks:
-  #    - control_plane
-
   auth-service:
     build: 
       context: .
@@ -131,6 +120,7 @@ services:
       - "443:443"
       - "444:444"
       - "8404:8404"
+      - "8405:8405"
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
       - ./shared/certs/localhost.pem:/usr/local/etc/haproxy/certs/localhost.pem:ro
@@ -142,6 +132,24 @@ services:
       notification-service:
         condition: service_started
     networks: [data_plane]
+
+# --- OBSERVABILITY ---
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks: [data_plane]
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    networks: [data_plane]
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
 
 networks:
   data_plane:    # for the traffic of Producer, Rabbit and Worker
