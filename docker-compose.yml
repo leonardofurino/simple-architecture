@@ -67,6 +67,7 @@ services:
       dockerfile: ./services/notification/Dockerfile
     ports:
       - "3002:3002"
+      - "9091:9091"
     environment:
       - REDIS_URL=redis://redis:6379
       - RABBIT_URL=amqp://guest:guest@rabbitmq:5672

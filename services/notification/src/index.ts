@@ -9,6 +9,8 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 import { readFileSync } from "fs";
 import { createServer } from "https";
+import client from "prom-client";
+import express from "express";  
 
 async function init() {
     const configInitResult = dotenv.config({ path: path.resolve(process.cwd(), '.env') });
@@ -124,6 +126,29 @@ async function startNotificationService() {
             console.log(`Delivered ${pending.length} old lost notifications for tenant ${tenantId}`);
         }
     });
+
+    // 1. standard prometheus metrics
+    const collectDefaultMetrics = client.collectDefaultMetrics;
+    collectDefaultMetrics();
+
+    // 2. prometheus metrics server
+    const metricsApp = express();
+
+    metricsApp.get('/metrics', async (req, res) => {
+        try {
+            res.set('Content-Type', client.register.contentType);
+            res.end(await client.register.metrics());
+        } catch (err) {
+            res.status(500).end(err);
+        }
+    });
+
+    const METRICS_PORT = Number(process.env.NOTIFICATION_METRICS_PORT);
+    metricsApp.listen(METRICS_PORT, '0.0.0.0', () => {
+        console.log('📊 Metrics endpoint listening on internal port %d',METRICS_PORT);
+    }); 
+
+    
 
 }
 

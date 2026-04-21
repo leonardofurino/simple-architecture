@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@simple-architecture/commons": "*",
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1",
     "fs": "^0.0.1-security"
   },
   "devDependencies": {

@@ -112,6 +112,11 @@ docker compose down && docker compose up -d --build
 use http://localhost:8404/stats for monitoring haproxy!
 moreover, logs on haproxy activated! ( only for POC scope!)
 
+use http://localhost:3000 to see grafana graphics
+use http://prometheus:9090 for prometheus datasource
+import 12693 dashboard for haproxy
+
+
 ## @TODO: 
 0) consumers ( workers ) as docker + compose
 1) tenants and users on db
