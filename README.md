@@ -108,7 +108,7 @@ run as docker container ( see docker-build.sh && "myservice"-run.sh in root fold
 #### 3) run as docker compose
 docker compose down && docker compose up -d --build
 
-#### Note:
+#### Note (monitoring):
 use http://localhost:8404/stats for monitoring haproxy!
 moreover, logs on haproxy activated! ( only for POC scope!)
 
@@ -116,6 +116,13 @@ use http://localhost:3000 to see grafana graphics
 use http://prometheus:9090 for prometheus datasource
 import 12693 dashboard for haproxy
 
+docker exec -it rmq_broker rabbitmq-plugins enable rabbitmq_prometheus
+import 10991 dashboard for rabbitmq
+
+ 
+Add visualizzation for notification-service
+query rate(process_cpu_user_seconds_total{job="notification-service"}[1m]) * 100 , unit misc/perc(1-100)
+query nodejs_heap_size_used_bytes{job="notification-service"} , unit data / bytes
 
 ## @TODO: 
 0) consumers ( workers ) as docker + compose
