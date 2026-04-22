@@ -118,14 +118,13 @@ import 12693 dashboard for haproxy
 
 docker exec -it rmq_broker rabbitmq-plugins enable rabbitmq_prometheus
 import 10991 dashboard for rabbitmq
-
  
 Add visualizzation for notification-service
 query rate(process_cpu_user_seconds_total{job="notification-service"}[1m]) * 100 , unit misc/perc(1-100)
 query nodejs_heap_size_used_bytes{job="notification-service"} , unit data / bytes
 
 ## @TODO: 
-0) consumers ( workers ) as docker + compose
+0) volumes for docker compose
 1) tenants and users on db
 2) producers like "real" users on browser
 3) some unit tests ???
