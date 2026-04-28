@@ -1,0 +1,55 @@
+{
+"title": "Node.js / TypeScript Service Metrics",
+"timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "10s",
+
+  "templating": {
+    "list": [
+      {
+        "allowCustomValue": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "label_values(up, job)",
+        "includeAll": false,
+        "multi": true,
+        "name": "job",
+        "options": [],
+        "query": {
+          "qryType": 5,
+          "query": "label_values(up, job)"
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      }
+    ]
+  },
+"panels": [
+{
+"type": "timeseries",
+"title": "CPU Usage",
+"targets": [
+{
+"expr": "rate(process_cpu_user_seconds_total{job=\"$job\"}[1m])",
+"legendFormat": "CPU"
+}
+]
+},
+{
+"type": "timeseries",
+"title": "Memory Usage (MB)",
+"targets": [
+{
+"expr": "process_resident_memory_bytes{job=\"$job\"} / 1024 / 1024",
+"legendFormat": "Memory MB"
+}
+]
+}
+],
+"schemaVersion": 38,
+"version": 1
+}

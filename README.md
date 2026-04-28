@@ -100,37 +100,47 @@ All services can be tested with
     npm run build 
 
 #### 1) run every service from command line 
-cd services/"my-service" 
-npm run build
-npm start 
+    cd services/"my-service" 
+    npm run build
+    npm start 
 #### 2) run every service as single container
-run as docker container ( see docker-build.sh && "myservice"-run.sh in root folder )
+    run as docker container ( see docker-build.sh && "myservice"-run.sh in root folder )
 #### 3) run as docker compose
-docker compose down && docker compose up -d --build
+    # infrasctructure + services
+    docker compose down && docker compose up -d --build
+    # producer
+    cd services/producer
+    npm build
+    npm run dev
+
+
 
 #### Note (monitoring):
-use http://localhost:8404/stats for monitoring haproxy!
+use http://localhost:8404/stats for monitoring haproxy!  
 moreover, logs on haproxy activated! ( only for POC scope!)
 
-use http://localhost:3000 to see grafana graphics
-use http://prometheus:9090 for prometheus datasource
-import 12693 dashboard for haproxy
-
-docker exec -it rmq_broker rabbitmq-plugins enable rabbitmq_prometheus
-import 10991 dashboard for rabbitmq
+##### Grafana & Prometheus
+use http://localhost:3000 to see grafana graphics  
+use http://prometheus:9090 for prometheus datasource  
+- import 12693 dashboard for haproxy
+- docker exec -it rmq_broker rabbitmq-plugins enable rabbitmq_prometheus  
+  - import 10991 dashboard for rabbitmq
  
-Add visualizzation for notification-service
-query rate(process_cpu_user_seconds_total{job="notification-service"}[1m]) * 100 , unit misc/perc(1-100)
-query nodejs_heap_size_used_bytes{job="notification-service"} , unit data / bytes
+- Add visualizzation for notification-service  
+  - query rate(process_cpu_user_seconds_total{job="notification-service"}[1m]) * 100 , unit misc/perc(1-100)  
+  - query nodejs_heap_size_used_bytes{job="notification-service"} , unit data / bytes
+- Use assets/grafana 
+    - grafana / dashboard / import ( json ) 
 
 ## @TODO: 
 0) volumes for docker compose
 1) tenants and users on db
 2) producers like "real" users on browser
 3) some unit tests ???
-    4) ha-proxy DONE - TO BE TESTED
-5) ===> CONTROL PLANE:
-    5.1) Performance Monitor
+4) ha-proxy DONE - TO BE TESTED
+5) ===> CONTROL PLANE:  
+    5.1) Performance Monitor  
     5.2) Performance Controller
-5) grafana
+5) Grafana & Prometheus
 6) maybe smartphone app ( android) as client ???
+
