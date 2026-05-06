@@ -121,7 +121,7 @@ moreover, logs on haproxy activated! ( only for POC scope!)
 
 ##### Grafana & Prometheus
 use http://localhost:3000 to see grafana graphics  
-use http://prometheus:9090 for prometheus datasource  
+use http://localhost:9090 for prometheus datasource  
 - import 12693 dashboard for haproxy
 - docker exec -it rmq_broker rabbitmq-plugins enable rabbitmq_prometheus  
   - import 10991 dashboard for rabbitmq

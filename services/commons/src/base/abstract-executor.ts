@@ -6,12 +6,26 @@ import { IJobExecutor } from '../types/job';
 import * as dotenv from 'dotenv';
 import path from 'path';
 import { QUEUES } from '../constants/queues';
+import client from "prom-client";
+import { Registry, collectDefaultMetrics } from 'prom-client';
+import express from "express";
 
 export abstract class AbstractExecutor implements IJobExecutor {
 
     public abstract execute(payload: any): Promise<void>;
 
     protected abstract queue: JobType;
+
+    protected abstract METRICS_PORT: number;
+
+    protected register: Registry;
+
+    constructor() {
+        this.register = new Registry();
+        // 1. standard prometheus metrics
+        collectDefaultMetrics({ register: this.register });
+    }
+
 
     private async init() {
         const configInitResult = dotenv.config({ path: path.resolve(process.cwd(), '.env') });
@@ -88,5 +102,20 @@ export abstract class AbstractExecutor implements IJobExecutor {
             console.error('❌ Worker Error:', error);
 
         }
+    
+        // 2. prometheus metrics server
+        const metricsApp = express();
+    
+        metricsApp.get('/metrics', async (req, res) => {
+            try {
+                res.set('Content-Type', this.register.contentType);
+                res.end(await this.register.metrics());
+            } catch (err) {
+                res.status(500).end(err);
+            }
+        });
+        metricsApp.listen(this.METRICS_PORT, '0.0.0.0', () => {
+            console.log('📊 Metrics endpoint listening on internal port %d',this.METRICS_PORT);
+        }); 
     }
 }

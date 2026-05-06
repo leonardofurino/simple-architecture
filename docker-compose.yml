@@ -83,6 +83,11 @@ services:
     build:
       context: .
       dockerfile: ./services/consumer/Dockerfile
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+      - "9094:9094"
+      - "9095:9095"
     environment:
       - MONGO_URL=mongodb://admin:password@mongodb:27017/jobs_db?authSource=admin
       - RABBIT_URL=amqp://guest:guest@rabbitmq:5672

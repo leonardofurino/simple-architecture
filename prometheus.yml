@@ -9,3 +9,19 @@ scrape_configs:
     scrape_interval: 10s
     static_configs:
       - targets: ['notification-service:9091']
+  - job_name: 'generic-consumer-service'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['consumer-service:9092']
+  - job_name: 'soft-consumer-service'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['consumer-service:9093']
+  - job_name: 'medium-consumer-service'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['consumer-service:9094']
+  - job_name: 'hard-consumer-service'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['consumer-service:9095']
